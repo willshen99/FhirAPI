@@ -13,18 +13,18 @@ def humanname_api():
     query = request.args.to_dict(flat=False)
     # conver card. == 0..1 fields to a non-list
     card1_field = ['use', 'text', 'family', 'period']
+    # for card 1 fields, validate input value numbers and tranform to non-iterable object
     for field in card1_field:
-        # continue to next loop if field not passed in
+        # continue if field not passed in
         if field not in query:
             continue
         # raise error if multiple values are passed in
         if len(query[field]) > 1:
             abort(400)
-        # convert to non-list item
+        # convert to non-iterable item
         query[field] = query[field][0]
     return HumanName.parse_obj(query).json()
 
 if __name__ == "__main__":
-    print('hello')
     app.run(host = '0.0.0.0',port=5000)
 
